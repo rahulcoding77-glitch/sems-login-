@@ -11,7 +11,6 @@
             background-color: #fff;
         }
 
-        /* Blue Top Header - Clean Version */
         header {
             background-color: #008cc9;
             height: 60px;
@@ -27,7 +26,6 @@
             letter-spacing: 2px;
         }
 
-        /* Login Container */
         .login-container {
             width: 500px;
             margin: 80px auto;
@@ -35,6 +33,10 @@
 
         .warning-text {
             color: #b94a48;
+            background-color: #f2dede;
+            border: 1px solid #ebccd1;
+            padding: 15px;
+            border-radius: 4px;
             font-size: 13px;
             font-weight: bold;
             line-height: 1.6;
@@ -74,7 +76,6 @@
             background: transparent;
         }
 
-        /* Real Captcha Styling */
         #captchaBox {
             background: #d3d3d3;
             width: 140px;
@@ -102,19 +103,12 @@
             user-select: none;
         }
 
-        /* Action Row */
         .action-row {
             margin-left: 120px;
             margin-top: 30px;
             display: flex;
             align-items: center;
             gap: 15px;
-        }
-
-        .forgot-link {
-            font-size: 13px;
-            color: #333;
-            text-decoration: none;
         }
 
         .btn-login {
@@ -148,12 +142,12 @@
 
         <div class="form-group">
             <label>Username</label>
-            <input type="text" placeholder="Rollno" id="username">
+            <input type="text" id="username" placeholder="Enter Roll No">
         </div>
 
         <div class="form-group">
             <label>Password</label>
-            <input type="password" value="password" id="password">
+            <input type="password" id="password" placeholder="Enter Password">
         </div>
 
         <div class="form-group" style="margin-bottom: 10px;">
@@ -167,13 +161,12 @@
         </div>
 
         <div class="action-row">
-            <a href="#" class="forgot-link">Forgot Password?</a>
+            <a href="#" style="font-size: 13px; color: #333; text-decoration: none;">Forgot Password?</a>
             <button class="btn-login" onclick="validateLogin()">Login</button>
         </div>
     </div>
 
     <script>
-        // Function to generate a random 6-character Captcha
         function generateCaptcha() {
             const chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
             let captcha = "";
@@ -181,22 +174,25 @@
                 captcha += chars.charAt(Math.floor(Math.random() * chars.length));
             }
             document.getElementById("captchaBox").innerText = captcha;
-            document.getElementById("captchaInput").value = ""; // Clear input on refresh
+            document.getElementById("captchaInput").value = ""; 
         }
 
-        // Simple validation function for the Login button
         function validateLogin() {
             const user = document.getElementById("username").value;
+            const pass = document.getElementById("password").value;
             const input = document.getElementById("captchaInput").value;
             const actual = document.getElementById("captchaBox").innerText;
 
-            if (user === "") {
-                alert("Please enter your Roll Number.");
-            } else if (input !== actual) {
+            // STRICT VALIDATION
+            if (user !== "2025508035") {
+                alert("Incorrect Roll Number!");
+            } else if (pass !== "123sr123#") {
+                alert("Incorrect Password!");
+            } else if (input.toLowerCase() !== actual.toLowerCase()) {
                 alert("Invalid Captcha! Please try again.");
                 generateCaptcha();
             } else {
-                // This would normally redirect to your result.html
+                // SUCCESS: Proceed to results
                 window.location.href = "result.html";
             }
         }
