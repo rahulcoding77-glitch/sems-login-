@@ -2,145 +2,146 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>SEMS - Student Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance & Mark - SEMS</title>
     <style>
+        :root {
+            --au-blue: #3c8dbc;
+            --au-dark-blue: #003366;
+            --table-header: #0073b7;
+            --assess-header: #001f3f;
+            --grade-header: #d81b60;
+            --bg-gray: #f4f7f9;
+            --border-color: #d2d6de;
+        }
+
         body {
-            font-family: 'Source Sans Pro', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-gray);
             margin: 0;
-            background-color: #ecf0f5;
-            display: flex;
-            flex-direction: column;
+            padding: 0;
+            color: #333;
         }
 
-        header {
-            background-color: #3c8dbc;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            padding: 0 15px;
+        /* Top Blue Navbar */
+        .navbar {
+            background-color: var(--au-blue);
             color: white;
-            justify-content: space-between;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-        }
-
-        .main-layout {
+            padding: 10px 20px;
             display: flex;
-            margin-top: 50px;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            width: 45px;
-            background-color: #222d32;
-            min-height: calc(100vh - 50px);
-            display: flex;
-            flex-direction: column;
             align-items: center;
-            padding-top: 15px;
-            gap: 20px;
+            justify-content: space-between;
+            height: 50px;
         }
 
-        .sidebar-icon {
-            color: #b8c7ce;
-            font-size: 16px;
-            cursor: pointer;
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            font-size: 12px;
+            gap: 10px;
+        }
+
+        .user-profile img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #eee;
         }
 
         /* Content Area */
-        .content {
-            flex-grow: 1;
-            padding: 15px 25px;
+        .container {
+            padding: 20px 40px;
         }
 
-        .breadcrumb {
+        .page-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
         }
 
-        .breadcrumb h1 {
-            font-size: 24px;
-            color: #333;
+        .page-header h1 {
+            color: var(--au-blue);
             margin: 0;
-            font-weight: 400;
+            font-size: 24px;
         }
 
-        .breadcrumb span {
+        .breadcrumb {
             font-size: 12px;
             color: #777;
         }
 
-        .dropdown-bar {
+        /* Selection Box */
+        .selector-box {
             background: white;
-            padding: 8px 12px;
-            border: 1px solid #d2d6de;
+            padding: 10px;
+            border: 1px solid var(--border-color);
             margin-bottom: 20px;
-            font-size: 14px;
-            color: #555;
-            display: flex;
-            justify-content: space-between;
         }
 
-        /* Student Details Table */
-        .info-table {
-            background: white;
+        .selector-box select {
             width: 100%;
-            border-top: 3px solid #d2d6de;
-            padding: 15px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        /* Info Grid */
+        .info-card {
+            background: white;
+            border-top: 3px solid var(--au-blue);
+            padding: 20px;
             margin-bottom: 20px;
-        }
-
-        .info-row {
-            display: flex;
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr 2fr;
+            gap: 15px;
             align-items: center;
+            font-size: 14px;
         }
 
-        .info-row label {
-            width: 140px;
+        .info-label {
             font-weight: bold;
-            font-size: 13px;
-            color: #333;
         }
 
-        .info-row .box {
-            flex: 1;
-            background: #f4f4f4;
-            border: 1px solid #ddd;
-            padding: 5px 10px;
-            font-size: 13px;
-            color: #555;
-            min-height: 18px;
+        .info-value {
+            background: #f9f9f9;
+            padding: 8px;
+            border: 1px solid #eee;
+            border-radius: 2px;
         }
 
         /* Marks Table */
-        .marks-card {
+        .marks-section {
             background: white;
-            border-top: 3px solid #3c8dbc;
+            padding: 0;
+            border: 1px solid var(--border-color);
         }
 
         .tabs {
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid #ddd;
             display: flex;
         }
 
         .tab {
-            padding: 10px 25px;
-            font-size: 13px;
-            color: #555;
+            padding: 10px 20px;
             cursor: pointer;
+            border-top: 3px solid transparent;
         }
 
         .tab.active {
-            color: #3c8dbc;
-            border-top: 3px solid #3c8dbc;
-            margin-top: -3px;
+            border-top-color: var(--au-blue);
+            border-right: 1px solid #ddd;
+            color: var(--au-blue);
             font-weight: bold;
         }
 
@@ -148,155 +149,153 @@
             width: 100%;
             border-collapse: collapse;
             font-size: 12px;
+            text-align: center;
         }
 
         th {
-            background-color: #008cc9;
             color: white;
-            padding: 8px;
-            border: 1px solid #ddd;
+            padding: 10px;
             font-weight: normal;
         }
 
+        .th-blue { background-color: var(--table-header); }
+        .th-dark { background-color: var(--assess-header); }
+        .th-pink { background-color: var(--grade-header); }
+
         td {
-            padding: 8px;
-            border: 1px solid #ddd;
-            text-align: center;
-            color: #333;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
         }
 
-        /* UNIFIED GRADE BOX COLOR - Deep Purple */
-        .grade-box {
-            background-color: #673ab7; 
-            color: white;
-            font-weight: bold;
-            display: block;
-            padding: 4px;
-            border-radius: 2px;
+        tr:nth-child(even) {
+            background-color: #fafafa;
         }
 
-        /* Updated Legend Footer */
-        .legend-section {
+        /* Grade Colors from screenshot */
+        .grade-s { background-color: #8e44ad; color: white; }
+        .grade-aplus { background-color: #9b59b6; color: white; }
+        .grade-a { background-color: #7d3c98; color: white; }
+
+        /* Legend Table */
+        .legend-table {
             margin-top: 30px;
-            width: 100%;
+            font-size: 11px;
         }
 
-        .legend-title {
-            background-color: #008cc9;
+        .legend-header {
+            background-color: var(--table-header);
             color: white;
             text-align: center;
             padding: 5px;
-            font-weight: bold;
-            font-size: 13px;
         }
-
-        .legend-row {
-            display: flex;
-            height: 35px;
-            border: 1px solid #ddd;
-            background: white;
-        }
-
-        .leg-label {
-            flex: 1;
-            background-color: #008cc9;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            border-right: 1px solid white;
-        }
-
-        .color-example {
-            flex: 3;
-            display: flex;
-            align-items: center;
-            padding-left: 15px;
-            font-size: 12px;
-            color: #555;
-        }
-
-        .tiny-color-box {
-            width: 15px;
-            height: 15px;
-            background-color: #673ab7;
-            margin-right: 10px;
-            border-radius: 2px;
-        }
-
     </style>
 </head>
 <body>
 
-    <header>
-        <div style="font-size: 18px; font-weight: bold;">AU <span style="margin-left:15px">☰</span></div>
-        <div style="font-size: 12px;">👤 VITHANALA RAHUL</div>
-    </header>
+    <div class="navbar">
+        <div class="navbar-brand">
+            <span>AU</span>
+            <span style="font-size: 18px;">☰</span>
+        </div>
+        <div class="user-profile">
+            <span>VITHANALA RAHUL</span>
+            <img src="https://via.placeholder.com/30" alt="User">
+        </div>
+    </div>
 
-    <div class="main-layout">
-        <div class="sidebar">
-            <div class="sidebar-icon">👤</div>
-            <div class="sidebar-icon">📅</div>
-            <div class="sidebar-icon">📢</div>
-            <div class="sidebar-icon">📝</div>
-            <div class="sidebar-icon">📋</div>
-            <div class="sidebar-icon">⚙️</div>
+    <div class="container">
+        <div class="page-header">
+            <h1>Attendance & Mark</h1>
+            <div class="breadcrumb">Attendance & Mark > View</div>
         </div>
 
-        <div class="content">
-            <div class="breadcrumb">
-                <h1>Attendance & Mark</h1>
-                <span>🏠 Attendance & Mark > View</span>
-            </div>
-
-            <div class="dropdown-bar">
-                Jul 2025 - Nov 2025 <span>▼</span>
-            </div>
-
-            <div class="info-table">
-                <div class="info-row"><label>Roll Number</label><div class="box">2025508035</div></div>
-                <div class="info-row"><label>Name</label><div class="box">VITHANALA RAHUL</div></div>
-                <div class="info-row"><label>Branch</label><div class="box">B.Tech RUBBER & PLASTICS TECHNOLOGY</div></div>
-                <div class="info-row"><label>Semester</label><div class="box">1</div></div>
-                <div class="info-row"><label>Campus</label><div class="box">MADRAS INSTITUTE OF TECHNOLOGY</div></div>
-                <div class="info-row"><label>Regulations</label><div class="box">2023</div></div>
-            </div>
-
-            <div class="marks-card">
-                <div class="tabs">
-                    <div class="tab active">Marks</div>
-                    <div class="tab">Profile</div>
-                </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>S.No.</th><th>Course Code</th><th>Course Name</th><th>Att. 1</th><th>Att. 2</th><th>Att. 3</th><th>Att.(%)</th><th>Assess. 1</th><th>Assess. 2</th><th>Assess. 3</th><th>I. Assess</th><th>Grade</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>1</td><td>CS23C04</td><td style="text-align:left">PROGRAMMING IN C</td><td>41</td><td>42</td><td></td><td>100</td><td>68</td><td>64</td><td>-</td><td>33</td><td><span class="grade-box">A+</span></td></tr>
-                        <tr><td>2</td><td>CY23C01</td><td style="text-align:left">ENGINEERING CHEMISTRY</td><td>35</td><td>35</td><td></td><td>100</td><td>72</td><td>83</td><td>-</td><td>39</td><td><span class="grade-box">S</span></td></tr>
-                        <tr><td>3</td><td>EN23C01</td><td style="text-align:left">FOUNDATION ENGLISH</td><td>26</td><td>30</td><td></td><td>100</td><td>91</td><td>94</td><td>-</td><td>46</td><td><span class="grade-box">A+</span></td></tr>
-                        <tr><td>4</td><td>MA23C01</td><td style="text-align:left">MATRICES & CALCULUS</td><td>28</td><td>24</td><td></td><td>100</td><td>57</td><td>71</td><td>-</td><td>26</td><td><span class="grade-box">S</span></td></tr>
-                        <tr><td>5</td><td>ME23C01</td><td style="text-align:left">ENGINEERING DRAWING & 3D MODELLING</td><td>30</td><td>45</td><td></td><td>100</td><td>0</td><td>29</td><td>-</td><td>7</td><td><span class="grade-box">A+</span></td></tr>
-                        <tr><td>6</td><td>PH23C01</td><td style="text-align:left">ENGINEERING PHYSICS</td><td>30</td><td>8</td><td></td><td>100</td><td>36</td><td>41</td><td>-</td><td>21</td><td><span class="grade-box">A+</span></td></tr>
-                        <tr><td>7</td><td>UC23H01</td><td style="text-align:left">HERITAGE OF TAMILS</td><td>6</td><td>6</td><td></td><td>100</td><td>52</td><td>76</td><td>-</td><td>26</td><td><span class="grade-box">A</span></td></tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="legend-section">
-                <div class="legend-title">Grade Representation</div>
-                <div class="legend-row">
-                    <div class="leg-label">Unified Grade Color</div>
-                    <div class="color-example">
-                        <div class="tiny-color-box"></div>
-                        <span>All passing grades (S, A+, A) use this Deep Purple shade.</span>
-                    </div>
-                </div>
-            </div>
+        <div class="selector-box">
+            <select>
+                <option>Jul 2025 - Nov 2025</option>
+            </select>
         </div>
+
+        <div class="info-card">
+            <div class="info-label">Roll Number</div>
+            <div class="info-value">2025508035</div>
+            <div class="info-label">Name</div>
+            <div class="info-value">VITHANALA RAHUL</div>
+            
+            <div class="info-label">Branch</div>
+            <div class="info-value">B.Tech RUBBER & PLASTICS TECHNOLOGY</div>
+            <div class="info-label">Semester</div>
+            <div class="info-value">1</div>
+
+            <div class="info-label">Campus</div>
+            <div class="info-value">MADRAS INSTITUTE OF TECHNOLOGY</div>
+            <div class="info-label">Regulations</div>
+            <div class="info-value">2023</div>
+        </div>
+
+        <div class="marks-section">
+            <div class="tabs">
+                <div class="tab active">Marks</div>
+                <div class="tab">Profile</div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th class="th-blue">S.No.</th>
+                        <th class="th-blue">Course Code</th>
+                        <th class="th-blue">Course Name</th>
+                        <th class="th-blue">Att. 1</th>
+                        <th class="th-blue">Att. 2</th>
+                        <th class="th-blue">Att. 3</th>
+                        <th class="th-blue">Att.(%)</th>
+                        <th class="th-dark">Assess. 1</th>
+                        <th class="th-dark">Assess. 2</th>
+                        <th class="th-dark">Assess. 3</th>
+                        <th class="th-dark">I. Assess</th>
+                        <th class="th-pink">Grade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td><td>CS23C04</td><td>PROGRAMMING IN C</td><td>41</td><td>42</td><td></td><td>100</td><td>68</td><td>64</td><td>-</td><td>33</td><td class="grade-aplus">A+</td>
+                    </tr>
+                    <tr>
+                        <td>2</td><td>CY23C01</td><td>ENGINEERING CHEMISTRY</td><td>35</td><td>35</td><td></td><td>100</td><td>72</td><td>83</td><td>-</td><td>39</td><td class="grade-s">S</td>
+                    </tr>
+                    <tr>
+                        <td>3</td><td>EN23C01</td><td>FOUNDATION ENGLISH</td><td>26</td><td>30</td><td></td><td>100</td><td>91</td><td>94</td><td>-</td><td>46</td><td class="grade-aplus">A+</td>
+                    </tr>
+                    <tr>
+                        <td>4</td><td>MA23C01</td><td>MATRICES & CALCULUS</td><td>28</td><td>24</td><td></td><td>100</td><td>57</td><td>71</td><td>-</td><td>26</td><td class="grade-s">S</td>
+                    </tr>
+                    <tr>
+                        <td>5</td><td>ME23C01</td><td>ENGINEERING DRAWING & 3D MODELLING</td><td>30</td><td>45</td><td></td><td>100</td><td>0</td><td>29</td><td>-</td><td>7</td><td class="grade-aplus">A+</td>
+                    </tr>
+                    <tr>
+                        <td>6</td><td>PH23C01</td><td>ENGINEERING PHYSICS</td><td>30</td><td>8</td><td></td><td>100</td><td>36</td><td>41</td><td>-</td><td>21</td><td class="grade-aplus">A+</td>
+                    </tr>
+                    <tr>
+                        <td>7</td><td>UC23H01</td><td>HERITAGE OF TAMILS</td><td>6</td><td>6</td><td></td><td>100</td><td>52</td><td>76</td><td>-</td><td>26</td><td class="grade-a">A</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <table class="legend-table">
+            <tr class="legend-header">
+                <td colspan="2">Grade Representation</td>
+                <td>Not Published</td>
+                <td>Published</td>
+                <td>Break of Studies</td>
+                <td>Withheld</td>
+            </tr>
+            <tr>
+                <td colspan="2">Color</td>
+                <td style="background:#5d4037"></td>
+                <td style="background:#8e44ad"></td>
+                <td style="background:#a569bd"></td>
+                <td style="background:#a04000"></td>
+            </tr>
+        </table>
     </div>
 
 </body>
