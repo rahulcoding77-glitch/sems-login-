@@ -2,18 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Attendance & Mark - SEMS</title>
+    <title>SEMS - Student Portal</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Source Sans Pro', sans-serif;
             margin: 0;
-            background-color: #f4f7f9;
-            color: #333;
+            background-color: #ecf0f5;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* Top Blue Navbar */
-        .navbar {
+        header {
             background-color: #3c8dbc;
             height: 50px;
             display: flex;
@@ -21,158 +20,283 @@
             padding: 0 15px;
             color: white;
             justify-content: space-between;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
         }
 
-        /* Main Content Header */
-        .content-header {
-            padding: 15px;
-            background: white;
-            border-bottom: 1px solid #d2d6de;
+        .main-layout {
+            display: flex;
+            margin-top: 50px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 45px;
+            background-color: #222d32;
+            min-height: calc(100vh - 50px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 15px;
+            gap: 20px;
+        }
+
+        .sidebar-icon {
+            color: #b8c7ce;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        /* Content Area */
+        .content {
+            flex-grow: 1;
+            padding: 15px 25px;
+        }
+
+        .breadcrumb {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 15px;
         }
 
-        .content-header h1 {
+        .breadcrumb h1 {
             font-size: 24px;
+            color: #333;
             margin: 0;
-            color: #3c8dbc;
+            font-weight: 400;
         }
 
-        /* Student Info Section */
-        .info-grid {
+        .breadcrumb span {
+            font-size: 12px;
+            color: #777;
+        }
+
+        .dropdown-bar {
+            background: white;
+            padding: 8px 12px;
+            border: 1px solid #d2d6de;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #555;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Student Details Table */
+        .info-table {
+            background: white;
+            width: 100%;
+            border-top: 3px solid #d2d6de;
+            padding: 15px;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
-            padding: 20px;
-            background: white;
-            margin: 15px;
-            border-top: 3px solid #d2d6de;
-            border-radius: 3px;
+            margin-bottom: 20px;
         }
 
-        .info-item {
+        .info-row {
             display: flex;
             align-items: center;
-            margin-bottom: 5px;
         }
 
-        .info-item label {
-            width: 150px;
+        .info-row label {
+            width: 140px;
             font-weight: bold;
             font-size: 13px;
+            color: #333;
         }
 
-        .info-item span {
-            background: #f9f9f9;
+        .info-row .box {
+            flex: 1;
+            background: #f4f4f4;
             border: 1px solid #ddd;
             padding: 5px 10px;
-            flex-grow: 1;
             font-size: 13px;
             color: #555;
+            min-height: 18px;
         }
 
-        /* Results Table */
-        .table-container {
-            margin: 15px;
+        /* Marks Table */
+        .marks-card {
             background: white;
-            padding: 10px;
-            overflow-x: auto;
+            border-top: 3px solid #3c8dbc;
+        }
+
+        .tabs {
+            border-bottom: 1px solid #eee;
+            display: flex;
+        }
+
+        .tab {
+            padding: 10px 25px;
+            font-size: 13px;
+            color: #555;
+            cursor: pointer;
+        }
+
+        .tab.active {
+            color: #3c8dbc;
+            border-top: 3px solid #3c8dbc;
+            margin-top: -3px;
+            font-weight: bold;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             font-size: 12px;
-            text-align: center;
         }
 
         th {
-            background-color: #0073b7;
+            background-color: #008cc9;
             color: white;
-            padding: 10px;
+            padding: 8px;
             border: 1px solid #ddd;
+            font-weight: normal;
         }
 
         td {
             padding: 8px;
             border: 1px solid #ddd;
-            font-weight: 500;
+            text-align: center;
+            color: #333;
         }
 
-        /* Specific Grade Colors from Screenshot */
-        .grade-s { background-color: #e91e63 !important; color: white; font-weight: bold; } /* Dark Pink */
-        .grade-aplus { background-color: #9c27b0 !important; color: white; font-weight: bold; } /* Magenta/Purple */
-        .grade-a { background-color: #673ab7 !important; color: white; font-weight: bold; } /* Deep Purple */
+        /* UNIFIED GRADE BOX COLOR - Deep Purple */
+        .grade-box {
+            background-color: #673ab7; 
+            color: white;
+            font-weight: bold;
+            display: block;
+            padding: 4px;
+            border-radius: 2px;
+        }
 
-        /* Att. 100% column color */
-        .att-green { color: #2d8a2d; font-weight: bold; }
+        /* Updated Legend Footer */
+        .legend-section {
+            margin-top: 30px;
+            width: 100%;
+        }
+
+        .legend-title {
+            background-color: #008cc9;
+            color: white;
+            text-align: center;
+            padding: 5px;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .legend-row {
+            display: flex;
+            height: 35px;
+            border: 1px solid #ddd;
+            background: white;
+        }
+
+        .leg-label {
+            flex: 1;
+            background-color: #008cc9;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            border-right: 1px solid white;
+        }
+
+        .color-example {
+            flex: 3;
+            display: flex;
+            align-items: center;
+            padding-left: 15px;
+            font-size: 12px;
+            color: #555;
+        }
+
+        .tiny-color-box {
+            width: 15px;
+            height: 15px;
+            background-color: #673ab7;
+            margin-right: 10px;
+            border-radius: 2px;
+        }
 
     </style>
 </head>
 <body>
 
-    <div class="navbar">
-        <div>AU ☰</div>
-        <div style="font-size: 12px;">VITHANALA RAHUL</div>
-    </div>
+    <header>
+        <div style="font-size: 18px; font-weight: bold;">AU <span style="margin-left:15px">☰</span></div>
+        <div style="font-size: 12px;">👤 VITHANALA RAHUL</div>
+    </header>
 
-    <div class="content-header">
-        <h1>Attendance & Mark</h1>
-        <div style="font-size: 12px; color: #777;">Attendance & Mark > View</div>
-    </div>
+    <div class="main-layout">
+        <div class="sidebar">
+            <div class="sidebar-icon">👤</div>
+            <div class="sidebar-icon">📅</div>
+            <div class="sidebar-icon">📢</div>
+            <div class="sidebar-icon">📝</div>
+            <div class="sidebar-icon">📋</div>
+            <div class="sidebar-icon">⚙️</div>
+        </div>
 
-    <div class="info-grid">
-        <div class="info-item"><label>Roll Number</label><span>2025508035</span></div>
-        <div class="info-item"><label>Name</label><span>VITHANALA RAHUL</span></div>
-        <div class="info-item"><label>Branch</label><span>B.Tech RUBBER & PLASTICS TECHNOLOGY</span></div>
-        <div class="info-item"><label>Semester</label><span>1</span></div>
-        <div class="info-item"><label>Campus</label><span>MADRAS INSTITUTE OF TECHNOLOGY</span></div>
-        <div class="info-item"><label>Regulations</label><span>2023</span></div>
-    </div>
+        <div class="content">
+            <div class="breadcrumb">
+                <h1>Attendance & Mark</h1>
+                <span>🏠 Attendance & Mark > View</span>
+            </div>
 
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>S.No.</th>
-                    <th>Course Code</th>
-                    <th>Course Name</th>
-                    <th>Att. 1</th>
-                    <th>Att. 2</th>
-                    <th>Att. 3</th>
-                    <th>Att. (%)</th>
-                    <th>Assess. 1</th>
-                    <th>Assess. 2</th>
-                    <th>Assess. 3</th>
-                    <th>I. Assess</th>
-                    <th>Grade</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td><td>CS23C04</td><td>PROGRAMMING IN C</td><td>41</td><td>42</td><td></td><td class="att-green">100</td><td>68</td><td>64</td><td>-</td><td>33</td><td class="grade-aplus">A+</td>
-                </tr>
-                <tr>
-                    <td>2</td><td>CY23C01</td><td>ENGINEERING CHEMISTRY</td><td>35</td><td>35</td><td></td><td class="att-green">100</td><td>72</td><td>83</td><td>-</td><td>39</td><td class="grade-s">S</td>
-                </tr>
-                <tr>
-                    <td>3</td><td>EN23C01</td><td>FOUNDATION ENGLISH</td><td>26</td><td>30</td><td></td><td class="att-green">100</td><td>91</td><td>94</td><td>-</td><td>46</td><td class="grade-aplus">A+</td>
-                </tr>
-                <tr>
-                    <td>4</td><td>MA23C01</td><td>MATRICES & CALCULUS</td><td>28</td><td>24</td><td></td><td class="att-green">100</td><td>57</td><td>71</td><td>-</td><td>26</td><td class="grade-s">S</td>
-                </tr>
-                <tr>
-                    <td>5</td><td>ME23C01</td><td>ENGINEERING DRAWING & 3D MODELLING</td><td>30</td><td>45</td><td></td><td class="att-green">100</td><td>0</td><td>29</td><td>-</td><td>7</td><td class="grade-aplus">A+</td>
-                </tr>
-                <tr>
-                    <td>6</td><td>PH23C01</td><td>ENGINEERING PHYSICS</td><td>30</td><td>8</td><td></td><td class="att-green">100</td><td>36</td><td>41</td><td>-</td><td>21</td><td class="grade-aplus">A+</td>
-                </tr>
-                <tr>
-                    <td>7</td><td>UC23H01</td><td>HERITAGE OF TAMILS</td><td>6</td><td>6</td><td></td><td class="att-green">100</td><td>52</td><td>76</td><td>-</td><td>26</td><td class="grade-a">A</td>
-                </tr>
-            </tbody>
-        </table>
+            <div class="dropdown-bar">
+                Jul 2025 - Nov 2025 <span>▼</span>
+            </div>
+
+            <div class="info-table">
+                <div class="info-row"><label>Roll Number</label><div class="box">2025508035</div></div>
+                <div class="info-row"><label>Name</label><div class="box">VITHANALA RAHUL</div></div>
+                <div class="info-row"><label>Branch</label><div class="box">B.Tech RUBBER & PLASTICS TECHNOLOGY</div></div>
+                <div class="info-row"><label>Semester</label><div class="box">1</div></div>
+                <div class="info-row"><label>Campus</label><div class="box">MADRAS INSTITUTE OF TECHNOLOGY</div></div>
+                <div class="info-row"><label>Regulations</label><div class="box">2023</div></div>
+            </div>
+
+            <div class="marks-card">
+                <div class="tabs">
+                    <div class="tab active">Marks</div>
+                    <div class="tab">Profile</div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>S.No.</th><th>Course Code</th><th>Course Name</th><th>Att. 1</th><th>Att. 2</th><th>Att. 3</th><th>Att.(%)</th><th>Assess. 1</th><th>Assess. 2</th><th>Assess. 3</th><th>I. Assess</th><th>Grade</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td>CS23C04</td><td style="text-align:left">PROGRAMMING IN C</td><td>41</td><td>42</td><td></td><td>100</td><td>68</td><td>64</td><td>-</td><td>33</td><td><span class="grade-box">A+</span></td></tr>
+                        <tr><td>2</td><td>CY23C01</td><td style="text-align:left">ENGINEERING CHEMISTRY</td><td>35</td><td>35</td><td></td><td>100</td><td>72</td><td>83</td><td>-</td><td>39</td><td><span class="grade-box">S</span></td></tr>
+                        <tr><td>3</td><td>EN23C01</td><td style="text-align:left">FOUNDATION ENGLISH</td><td>26</td><td>30</td><td></td><td>100</td><td>91</td><td>94</td><td>-</td><td>46</td><td><span class="grade-box">A+</span></td></tr>
+                        <tr><td>4</td><td>MA23C01</td><td style="text-align:left">MATRICES & CALCULUS</td><td>28</td><td>24</td><td></td><td>100</td><td>57</td><td>71</td><td>-</td><td>26</td><td><span class="grade-box">S</span></td></tr>
+                        <tr><td>5</td><td>ME23C01</td><td style="text-align:left">ENGINEERING DRAWING & 3D MODELLING</td><td>30</td><td>45</td><td></td><td>100</td><td>0</td><td>29</td><td>-</td><td>7</td><td><span class="grade-box">A+</span></td></tr>
+                        <tr><td>6</td><td>PH23C01</td><td style="text-align:left">ENGINEERING PHYSICS</td><td>30</td><td>8</td><td></td><td>100</td><td>36</td><td>41</td><td>-</td><td>21</td><td><span class="grade-box">A+</span></td></tr>
+                        <tr><td>7</td><td>UC23H01</td><td style="text-align:left">HERITAGE OF TAMILS</td><td>6</td><td>6</td><td></td><td>100</td><td>52</td><td>76</td><td>-</td><td>26</td><td><span class="grade-box">A</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="legend-section">
+                <div class="legend-title">Grade Representation</div>
+                <div class="legend-row">
+                    <div class="leg-label">Unified Grade Color</div>
+                    <div class="color-example">
+                        <div class="tiny-color-box"></div>
+                        <span>All passing grades (S, A+, A) use this Deep Purple shade.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 </body>
