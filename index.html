@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SEMS - ACOE</title>
+    <style>
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+        }
+
+        /* Blue Top Header - Clean Version */
+        header {
+            background-color: #008cc9;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            padding: 0 40px;
+            color: white;
+        }
+
+        .logo-section {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        /* Login Container */
+        .login-container {
+            width: 500px;
+            margin: 80px auto;
+        }
+
+        .warning-text {
+            color: #b94a48;
+            font-size: 13px;
+            font-weight: bold;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        h3 {
+            font-weight: normal;
+            font-size: 22px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            color: #333;
+        }
+
+        .form-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            width: 120px;
+            font-weight: bold;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .form-group input {
+            border: none;
+            border-bottom: 1px solid #ccc;
+            padding: 8px 5px;
+            width: 280px;
+            outline: none;
+            font-size: 14px;
+            color: #555;
+            background: transparent;
+        }
+
+        /* Real Captcha Styling */
+        #captchaBox {
+            background: #d3d3d3;
+            width: 140px;
+            height: 45px;
+            margin-left: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 4px;
+            color: #222;
+            user-select: none;
+            text-decoration: line-through;
+            font-style: italic;
+            border: 1px solid #bbb;
+        }
+
+        .refresh-btn {
+            color: #008cc9;
+            font-size: 24px;
+            margin-left: 15px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        /* Action Row */
+        .action-row {
+            margin-left: 120px;
+            margin-top: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .forgot-link {
+            font-size: 13px;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .btn-login {
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            padding: 8px 25px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-login:hover {
+            background-color: #4cae4c;
+        }
+    </style>
+</head>
+<body onload="generateCaptcha()">
+
+    <header>
+        <div class="logo-section">SEMS</div>
+    </header>
+
+    <div class="login-container">
+        <div class="warning-text">
+            Note : Any request for change of Faculty or change of Elective courses will NOT BE ENTERTAINED AFTER the student has successfully completed the Enrollment process and locked it.
+        </div>
+
+        <h3>Login</h3>
+
+        <div class="form-group">
+            <label>Username</label>
+            <input type="text" placeholder="Rollno" id="username">
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" value="password" id="password">
+        </div>
+
+        <div class="form-group" style="margin-bottom: 10px;">
+            <div id="captchaBox">------</div>
+            <span class="refresh-btn" onclick="generateCaptcha()">&#8635;</span>
+        </div>
+
+        <div class="form-group">
+            <label>Enter Code</label>
+            <input type="text" placeholder="Type captcha here" id="captchaInput">
+        </div>
+
+        <div class="action-row">
+            <a href="#" class="forgot-link">Forgot Password?</a>
+            <button class="btn-login" onclick="validateLogin()">Login</button>
+        </div>
+    </div>
+
+    <script>
+        // Function to generate a random 6-character Captcha
+        function generateCaptcha() {
+            const chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            let captcha = "";
+            for (let i = 0; i < 6; i++) {
+                captcha += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            document.getElementById("captchaBox").innerText = captcha;
+            document.getElementById("captchaInput").value = ""; // Clear input on refresh
+        }
+
+        // Simple validation function for the Login button
+        function validateLogin() {
+            const user = document.getElementById("username").value;
+            const input = document.getElementById("captchaInput").value;
+            const actual = document.getElementById("captchaBox").innerText;
+
+            if (user === "") {
+                alert("Please enter your Roll Number.");
+            } else if (input !== actual) {
+                alert("Invalid Captcha! Please try again.");
+                generateCaptcha();
+            } else {
+                // This would normally redirect to your result.html
+                window.location.href = "result.html";
+            }
+        }
+    </script>
+
+</body>
+</html>
